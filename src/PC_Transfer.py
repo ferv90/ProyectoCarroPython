@@ -24,7 +24,7 @@ try:
     while True:
         len_str = recvall(conn, 4)
         size = struct.unpack('!i', len_str)[0]
-        print("the length image is ", size)
+        #print("the length image is ", size)
 
         stringData = recvall(conn, int(size))
         data = numpy.frombuffer(stringData, dtype='uint8')
