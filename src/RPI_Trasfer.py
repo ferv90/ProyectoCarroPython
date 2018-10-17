@@ -11,8 +11,8 @@ frames = queue.Queue(2)
 TCP_IP = '10.0.0.13'
 TCP_PORT = 5001
 CAMERA_FPS = 120
-CAMERA_WIDTH = 480
-CAMERA_HEIGHT = 272
+CAMERA_WIDTH = 640
+CAMERA_HEIGHT = 480
 
 class ImageGrabber(threading.Thread):
     def __init__(self, ID):
@@ -51,12 +51,14 @@ while True:
         result, imgencode = cv2.imencode('.jpg', Currframe, encode_param)
         data = numpy.array(imgencode)
         stringData = data.tostring()
-       #print("image size is", len(stringData))
-        print("queue size is ", frames.qsize(), "image size is", len(stringData))
+        #print("image size is", len(stringData))
+        #print("queue size is ", frames.qsize(), "image size is", len(stringData))
         len_str = struct.pack('!i', len(stringData))
-
+        #start = time.time()
         sock.send(len_str)
         sock.send(stringData)
+        #print("Time execution is ",time.time() - start)
+
         #time.sleep(1)
 
 sock.close()
