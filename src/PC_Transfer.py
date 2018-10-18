@@ -13,7 +13,7 @@ def recvall(sock, count):
     return buf
 
 
-TCP_IP = '10.0.0.22'
+TCP_IP = '169.254.7.200'
 TCP_PORT = 5001
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
