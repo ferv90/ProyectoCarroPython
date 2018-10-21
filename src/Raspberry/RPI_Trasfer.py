@@ -10,20 +10,20 @@ from picamera import PiCamera
 
 frames = queue.Queue(2)
 
-TCP_IP = '169.254.137.84'
+TCP_IP = '169.254.143.248'
 TCP_PORT = 5001
-CAMERA_FPS = 120
-CAMERA_WIDTH = 640
-CAMERA_HEIGHT = 480
+CAMERA_FPS = 5
+CAMERA_WIDTH = 480
+CAMERA_HEIGHT = 272
 
 class ImageGrabber(threading.Thread):
 
-    def __init__(self, ID):
+    def __init__(self):
         threading.Thread.__init__(self)
         self.camera = PiCamera()
-        self.camera.resolution = (640, 480)
-        self.camera.framerate = 32
-        self.rawCapture = PiRGBArray(self.camera, size=(640, 480))
+        self.camera.resolution = (CAMERA_WIDTH, CAMERA_HEIGHT)
+        self.camera.framerate = CAMERA_FPS
+        self.rawCapture = PiRGBArray(self.camera, size=(CAMERA_WIDTH, CAMERA_HEIGHT))
 
     def run(self):
         global frames
@@ -46,7 +46,7 @@ print("RPI Send Camera image script Start")
 sock = socket.socket()
 sock.connect((TCP_IP, TCP_PORT))
 encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
-grabber = ImageGrabber(0)
+grabber = ImageGrabber()
 grabber.start()
 while True:
 
