@@ -10,11 +10,11 @@ from picamera import PiCamera
 
 frames = queue.Queue(2)
 
-TCP_IP = '169.254.143.248'
+TCP_IP = '169.254.222.71'
 TCP_PORT = 5001
-CAMERA_FPS = 5
-CAMERA_WIDTH = 480
-CAMERA_HEIGHT = 272
+CAMERA_FPS = 30
+CAMERA_WIDTH = 640
+CAMERA_HEIGHT = 480
 
 class ImageGrabber(threading.Thread):
 
@@ -23,12 +23,14 @@ class ImageGrabber(threading.Thread):
         self.camera = PiCamera()
         self.camera.resolution = (CAMERA_WIDTH, CAMERA_HEIGHT)
         self.camera.framerate = CAMERA_FPS
+        self.camera.start_preview()
+        time.sleep(2)
         self.rawCapture = PiRGBArray(self.camera, size=(CAMERA_WIDTH, CAMERA_HEIGHT))
 
     def run(self):
         global frames
         print("Thread running")
-        for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True):
+        for frame in self.camera.capture_continuous(self.rawCapture, format="bgr"):
             # grab the raw NumPy array representing the image, then initialize the timestamp
             # and occupied/unoccupied text
             image = frame.array
@@ -37,6 +39,7 @@ class ImageGrabber(threading.Thread):
             self.rawCapture.truncate(0)
 
             frames.put(image)
+            time.sleep(.1)
 
 
 ################################################################################

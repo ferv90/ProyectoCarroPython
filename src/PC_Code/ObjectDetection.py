@@ -2,8 +2,8 @@ import cv2 as cv
 import numpy as np
 
 # Initialize the parameters
-confThreshold = 0.5  # Confidence threshold
-nmsThreshold = 0.4  # Non-maximum suppression threshold
+confThreshold = 0.3  # Confidence threshold
+nmsThreshold = 0.3  # Non-maximum suppression threshold
 inpWidth = 416  # Width of network's input image
 inpHeight = 416  # Height of network's input image
 classesFile = "../coco.names"
@@ -17,8 +17,8 @@ class ObjectDetect:
             self.classes = f.read().rstrip('\n').split('\n')
 
         # Give the configuration and weight files for the model and load the network using them.
-        self.modelConfiguration = "../yolov3.cfg"
-        self.modelWeights = "../yolov3.weights"
+        self.modelConfiguration = "../yolov3tiny.cfg"
+        self.modelWeights = "../yolov3-tiny.weights"
         self.net = cv.dnn.readNetFromDarknet(self.modelConfiguration, self.modelWeights)
         self.net.setPreferableBackend(cv.dnn.DNN_BACKEND_OPENCV)
         self.net.setPreferableTarget(cv.dnn.DNN_TARGET_CPU)
